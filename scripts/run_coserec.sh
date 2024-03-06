@@ -4,15 +4,15 @@
 
 CFG_FILE="$2"
 
-grepx() { grep -Po "^$1:\s+\K.*$" "./${CFG_FILE}" ; }
+grepx() { grep -Po "^($1):\s+\K.*$" "./${CFG_FILE}" ; }
 get() { echo " --$1 $( grepx $1 )" ; }
 
+#$(get do_eval) \
+#$(get no_cuda) \
 python3 ../src/main.py \
     $(get data_dir) \
     $(get output_dir) \
     $(get data_name) \
-    $(get do_eval) \
-    $(get model_idx) \
     $(get gpu_id) \
     $(get noise_ratio) \
     $(get training_data_ratio) \
@@ -41,8 +41,6 @@ python3 ../src/main.py \
     $(get lr) \
     $(get batch_size) \
     $(get epochs) \
-    $(get no_cuda) \
-    $(get log_freq) \
     $(get seed) \
     $(get cf_weight) \
     $(get rec_weight) \
