@@ -112,8 +112,12 @@ def main():
     print("Using Cuda:", torch.cuda.is_available())
     args.data_file = args.data_dir + args.data_name + '.txt'
 
+    print("Generating user sequences...")
+    start_time_gen_sequences = time.time()
     user_seq, max_item, valid_rating_matrix, test_rating_matrix = \
         get_user_seqs(args.data_file)
+    duration_minutes = (time.time() - start_time_gen_sequences) / 60
+    print(f"  Took {duration_minutes} minutes to execute.")
 
     args.item_size = max_item + 2
     args.mask_id = max_item + 1
@@ -135,6 +139,8 @@ def main():
     args.checkpoint_path = os.path.join(args.output_dir, checkpoint)
 
     # -----------   pre-computation for item similarity   ------------ #
+    print("Pre-computing item similarity...")
+    start_time_item_similarity = time.time()
     args.similarity_model_path = os.path.join(args.data_dir,\
                             args.data_name+'_'+args.similarity_model_name+'_similarity.pkl')
 
@@ -143,6 +149,8 @@ def main():
                             model_name=args.similarity_model_name,
                             dataset_name=args.data_name)
     args.offline_similarity_model = offline_similarity_model
+    duration_minutes = (time.time() - start_time_item_similarity)/60
+    print(f"  Took {duration_minutes} minutes to execute.")
 
     # -----------   online based on shared item embedding for item similarity --------- #
     online_similarity_model = OnlineItemSimilarity(item_size=args.item_size)
@@ -168,7 +176,6 @@ def main():
 
     trainer = CoSeRecTrainer(model, train_dataloader, eval_dataloader,
                               test_dataloader, args)
-
 
     if args.do_eval:
         trainer.args.train_matrix = test_rating_matrix
@@ -199,6 +206,6 @@ def main():
         f.write(args_str + '\n')
         f.write(result_info + '\n')
 
-    duration_minutes = time.time() - start_time
+    duration_minutes = (time.time() - start_time)/60
     print(f"CoSeRec took {duration_minutes} minutes to execute.")
 main()
