@@ -2,7 +2,8 @@
 
 import os
 import numpy as np
-import random
+import time
+
 import torch
 import argparse
 
@@ -20,6 +21,9 @@ def show_args_info(args):
         print(f"{arg:<30} : {getattr(args, arg):>35}")
 
 def main():
+
+    start_time = time.time()
+
     parser = argparse.ArgumentParser()
     #system args
     parser.add_argument('--data_dir', default='../data/', type=str)
@@ -194,4 +198,7 @@ def main():
     with open(args.log_file, 'a') as f:
         f.write(args_str + '\n')
         f.write(result_info + '\n')
+
+    duration_minutes = time.time() - start_time
+    print(f"CoSeRec took {duration_minutes} minutes to execute.")
 main()
