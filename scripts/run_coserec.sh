@@ -7,7 +7,7 @@ CFG_FILE="$2"
 grepx() { grep -Po "^$1:\s+\K.*$" "./${CFG_FILE}" ; }
 get() { echo " --$1 $( grepx $1 )" ; }
 
-python3 main.py \
+python3 ../src/main.py \
     $(get data_dir) \
     $(get output_dir) \
     $(get data_name) \

@@ -1,7 +1,7 @@
 # CoSeRec Parameters
 data_dir: ../data/
 output_dir: output/
-data_name: seek-au-10k-applies
+data_name: au-10k-applies
   #do_eval: 
 model_idx: 0
 gpu_id: 0

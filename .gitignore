@@ -1,0 +1,6 @@
+*.txt
+*.swp
+*.pkl
+__pycache__/
+output/
+
