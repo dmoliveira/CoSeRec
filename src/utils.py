@@ -141,6 +141,8 @@ def get_user_seqs(data_file):
         user, items = line.strip().split(' ', 1)
         items = items.split(' ')
         items = [int(item) for item in items]
+        if len(items) < 4:
+            continue
         user_seq.append(items)
         item_set = item_set | set(items)
     max_item = max(item_set)
